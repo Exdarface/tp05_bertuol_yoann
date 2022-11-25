@@ -1,13 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Client } from '@core/model/client';
+import { ServiceBase } from '@core/services/service-base';
+import { ApiHttpInterceptor } from 'app/api-http-interceptor';
 
 @Injectable()
-export class ClientService {
-  constructor() {}
+export class ClientService extends ServiceBase {
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getClient(): Client {
     return new Client(
-      1,
       'John',
       'Doe',
       'test@gmail.com',
@@ -26,14 +30,5 @@ export class ClientService {
   //create method to post a client
   postClient(client: Client) {
     console.log(client);
-  }
-
-  //create method to post login
-  postLogin(login: string, password: string, confirmPassword: string) {
-    if (password === confirmPassword) {
-      console.log('Login accepted');
-    } else {
-      console.log('Login rejected');
-    }
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Login } from '../../core/model/login';
+import { FormControl, FormGroup } from '@angular/forms';
+import { LoginService } from '@services/login/login.service';
 
 @Component({
   selector: 'app-login',
@@ -9,20 +8,21 @@ import { Login } from '../../core/model/login';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  formGroup: FormGroup;
-  formSubscription: Subscription;
-
-  constructor(private formBuilder: FormBuilder) {
-    this.formGroup = this.formBuilder.group({
-      login: ['', Validators.required],
-      password: ['', Validators.required],
+  loginForm: FormGroup;
+  constructor(private loginService: LoginService) {
+    this.loginForm = new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl(''),
     });
-    this.formSubscription = this.formGroup.valueChanges.subscribe(
-      (value: Login) => {
-        console.log(value);
-      }
-    );
   }
 
   ngOnInit(): void {}
+
+  onSubmit() {
+    this.loginService
+      .login(this.loginForm.value.username, this.loginForm.value.password)
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 }

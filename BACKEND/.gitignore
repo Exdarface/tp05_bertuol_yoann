@@ -42,6 +42,5 @@ testem.log
 Thumbs.db
 
 # Composer
-composer.phar
-/vendor
+/vendor/
 .htaccess
